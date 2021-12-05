@@ -1,0 +1,27 @@
+.btn-cute {
+    background-color: lightpink;
+    color: black;
+    &:hover {
+        background-color: salmon;
+    }
+}
+.btn-neutral {
+    background-color: beige;
+    color: brown;
+    &:hover {
+        background-color:tan;
+        color:brown;
+    }
+}
+
+.classic {
+    background-color: black;
+}
+
+.neutral {
+    background-color: beige;
+}
+
+.cute {
+    background-color: lightpink;
+}

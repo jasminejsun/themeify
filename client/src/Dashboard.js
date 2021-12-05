@@ -5,6 +5,7 @@ import SpotifyWebApi from "spotify-web-api-node"
 import axios from "axios"
 import TrackSearchResult from './TrackSearchResult'
 import Player from './Player'
+import './Dashboard.scss'
 
 const spotifyApi = new SpotifyWebApi({
     clientId: "b5505dc1e4ae428e8d773a7066fa835f",
@@ -16,6 +17,9 @@ export default function Dashboard({ code }) {
     const [searchResults, setSearchResults] = useState([])
     const [playingTrack, setPlayingTrack] = useState()
     const [lyrics, setLyrics] = useState()
+    const [isNeutral, setIsNeutral] = useState(false)
+    const [isCute, setIsCute] = useState(false)
+    const [isClassic, setIsClassic] = useState(true)
 
     function chooseTrack(track) {
         setPlayingTrack(track)
@@ -67,8 +71,32 @@ export default function Dashboard({ code }) {
         return () => cancel = true
     }, [search, accessToken])
 
+    const handleClassicToggle = () => {
+        setIsCute(false)
+        setIsNeutral(false)
+        setIsClassic(true)
+    };
+
+    const handleNeutralToggle = () => {
+        setIsCute(false)
+        setIsNeutral(!isNeutral);
+    };
+    
+    const handleCuteToggle = () => {
+        setIsNeutral(false)
+        setIsCute(!isCute);
+    };
+
     return (
+    <div className={isClassic ? "classic" : null}>
+    <div className={isCute ? "cute" : null}>
+    <div className={isNeutral ? "neutral" : null}>
     <Container className="d-flex flex-column py-2" style={{height: "100vh"}}>
+        <Container className="d-flex flex-row">
+            <button className="btn btn-dark btn-lg m-3" onClick={handleClassicToggle}>Classic</button>
+            <button className="btn btn-cute btn-lg m-3" onClick={handleCuteToggle}>Cute</button>
+            <button className="btn btn-neutral btn-lg m-3" onClick={handleNeutralToggle}>Neutral</button>
+        </Container>
         <Form.Control 
         type="search" 
         placeholder="Artists, songs, or podcasts" 
@@ -89,6 +117,8 @@ export default function Dashboard({ code }) {
             <Player accessToken={accessToken} trackUri={playingTrack?.uri} />
         </div>
     </Container>
-
+    </div>
+    </div>
+    </div>
     )
 }
